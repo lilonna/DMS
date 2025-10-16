@@ -24,4 +24,12 @@ public partial class Desktop
     public string? IssueReport { get; set; }
 
     public int RoomId { get; set; }
+
+    [ForeignKey("RoomId")]
+    [InverseProperty("Desktops")]
+    public virtual Room Room { get; set; } = null!;
+
+    [ForeignKey("UserId")]
+    [InverseProperty("Desktops")]
+    public virtual User? User { get; set; }
 }

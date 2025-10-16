@@ -31,6 +31,31 @@ public partial class DMSContext : DbContext
         modelBuilder.Entity<Desktop>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
+
+            entity.HasOne(d => d.Room).WithMany(p => p.Desktops)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Desktops_Rooms");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Desktops).HasConstraintName("FK_Desktops_Users");
+        });
+
+        modelBuilder.Entity<Gender>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedNever();
+        });
+
+        modelBuilder.Entity<Room>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedNever();
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedNever();
+
+            entity.HasOne(d => d.Gender).WithMany(p => p.Users)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Users_Genders");
         });
 
         OnModelCreatingPartial(modelBuilder);

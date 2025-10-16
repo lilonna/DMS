@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DMS.Models;
 
-[Keyless]
 public partial class User
 {
+    [Key]
     public int Id { get; set; }
 
     [Column("First Name")]
@@ -31,4 +31,11 @@ public partial class User
 
     [StringLength(50)]
     public string Position { get; set; } = null!;
+
+    [InverseProperty("User")]
+    public virtual ICollection<Desktop> Desktops { get; set; } = new List<Desktop>();
+
+    [ForeignKey("GenderId")]
+    [InverseProperty("Users")]
+    public virtual Gender Gender { get; set; } = null!;
 }

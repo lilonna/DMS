@@ -6,11 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DMS.Models;
 
-[Keyless]
 public partial class Gender
 {
+    [Key]
     public int Id { get; set; }
 
     [StringLength(50)]
     public string Name { get; set; } = null!;
+
+    [InverseProperty("Gender")]
+    public virtual ICollection<User> Users { get; set; } = new List<User>();
 }
