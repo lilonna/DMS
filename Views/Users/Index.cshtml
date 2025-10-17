@@ -51,15 +51,34 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Position)
             </td>
+                <td>
+                    @(item.Gender != null ? item.Gender.Name : "Not set")
+                </td>
+
+
             <td>
-                @Html.DisplayFor(modelItem => item.Gender.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                      
+
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_@item.Id"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            Manage
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton_@item.Id">
+                            <li><a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a></li>
+                            <li><a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a></li>
+                            <li><a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+                    
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+

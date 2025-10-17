@@ -1,51 +1,76 @@
 @model DMS.Models.Desktop
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Desktop";
 }
 
-<h1>Create</h1>
-
-<h4>Desktop</h4>
+<h1>Create Desktop</h1>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="form-group mb-4">
+                <label asp-for="DesktopNameId" class="form-label">DesktopName</label>
+                <select asp-for="DesktopNameId" class="form-control" asp-items="ViewBag.DesktopNameId">
+                    <option value=""> Choose Name </option>
+                </select>
+                <span asp-validation-for="DesktopNameId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SerialNumber" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="SerialNumber" class="form-label"></label>
                 <input asp-for="SerialNumber" class="form-control" />
                 <span asp-validation-for="SerialNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+
+            
+            <div class="form-group mb-3">
+                <label asp-for="UserId" class="form-label">Assigned User</label>
+                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId">
+                    <option value=""> Choose User</option>  
+                </select>
             </div>
-            <div class="form-group">
-                <label asp-for="IssueReport" class="control-label"></label>
-                <input asp-for="IssueReport" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="IssueReport" class="form-label"></label>
+                <textarea asp-for="IssueReport" class="form-control"></textarea>
                 <span asp-validation-for="IssueReport" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="RoomId" class="control-label"></label>
-                <select asp-for="RoomId" class ="form-control" asp-items="ViewBag.RoomId"></select>
+
+            <div class="form-group mb-4">
+                <label asp-for="RoomId" class="form-label">Room</label>
+                <select asp-for="RoomId" class="form-control" asp-items="ViewBag.RoomId">
+                    <option value=""> Choose Room </option>
+                </select>
+                <span asp-validation-for="RoomId" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
             </div>
         </form>
     </div>
 </div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
+@if (ViewBag.Errors != null)
+{
+    <ul>
+        @foreach (var err in ViewBag.Errors)
+        {
+            <li>@err</li>
+        }
+    </ul>
+}
+
+
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -11,23 +11,24 @@ public partial class Desktop
     [Key]
     public int Id { get; set; }
 
-    [StringLength(100)]
-    public string Name { get; set; } = null!;
+    public int? DesktopNameId { get; set; }
 
-    [Column("Serial Number")]
     [StringLength(100)]
     public string SerialNumber { get; set; } = null!;
 
     public int? UserId { get; set; }
 
-    [Column("Issue Report")]
     public string? IssueReport { get; set; }
 
-    public int RoomId { get; set; }
+    public int? RoomId { get; set; }
+
+    [ForeignKey("DesktopNameId")]
+    [InverseProperty("Desktops")]
+    public virtual DesktopName? DesktopName { get; set; }
 
     [ForeignKey("RoomId")]
     [InverseProperty("Desktops")]
-    public virtual Room Room { get; set; } = null!;
+    public virtual Room? Room { get; set; }
 
     [ForeignKey("UserId")]
     [InverseProperty("Desktops")]

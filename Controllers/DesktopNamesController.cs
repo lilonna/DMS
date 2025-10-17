@@ -6,27 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DMS.Models;
-using System.Diagnostics;
 
 namespace DMS.Controllers
 {
-    public class UsersController : Controller
+    public class DesktopNamesController : Controller
     {
         private readonly DMSContext _context;
 
-        public UsersController(DMSContext context)
+        public DesktopNamesController(DMSContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: DesktopNames
         public async Task<IActionResult> Index()
         {
-            var dMSContext = _context.Users.Include(u => u.Gender);
-            return View(await dMSContext.ToListAsync());
+            return View(await _context.DesktopNames.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: DesktopNames/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,48 +32,39 @@ namespace DMS.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .Include(u => u.Gender)
+            var desktopName = await _context.DesktopNames
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (desktopName == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(desktopName);
         }
 
-        // GET: Users/Create
+        // GET: DesktopNames/Create
         public IActionResult Create()
         {
-            ViewData["GenderId"] = new SelectList(_context.Genders, "Id", "Name");
             return View();
         }
 
-        // POST: Users/Create
+        // POST: DesktopNames/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,MiddleName,LastName,GenderId,PhoneNumber,Position")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name")] DesktopName desktopName)
         {
-
-            ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-
-            var genderValue = Request.Form["GenderId"];
-            Debug.WriteLine($"GenderId posted: {genderValue}");
-
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(desktopName);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GenderId"] = new SelectList(_context.Genders, "Id", "Name", user.GenderId);
-            return View(user);
+            return View(desktopName);
         }
 
-        // GET: Users/Edit/5
+        // GET: DesktopNames/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,23 +72,22 @@ namespace DMS.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var desktopName = await _context.DesktopNames.FindAsync(id);
+            if (desktopName == null)
             {
                 return NotFound();
             }
-            ViewData["GenderId"] = new SelectList(_context.Genders, "Id", "Name", user.GenderId);
-            return View(user);
+            return View(desktopName);
         }
 
-        // POST: Users/Edit/5
+        // POST: DesktopNames/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,MiddleName,LastName,GenderId,PhoneNumber,Position")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] DesktopName desktopName)
         {
-            if (id != user.Id)
+            if (id != desktopName.Id)
             {
                 return NotFound();
             }
@@ -108,12 +96,12 @@ namespace DMS.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(desktopName);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!DesktopNameExists(desktopName.Id))
                     {
                         return NotFound();
                     }
@@ -124,11 +112,10 @@ namespace DMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GenderId"] = new SelectList(_context.Genders, "Id", "Name", user.GenderId);
-            return View(user);
+            return View(desktopName);
         }
 
-        // GET: Users/Delete/5
+        // GET: DesktopNames/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,35 +123,34 @@ namespace DMS.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .Include(u => u.Gender)
+            var desktopName = await _context.DesktopNames
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (desktopName == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(desktopName);
         }
 
-        // POST: Users/Delete/5
+        // POST: DesktopNames/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            var desktopName = await _context.DesktopNames.FindAsync(id);
+            if (desktopName != null)
             {
-                _context.Users.Remove(user);
+                _context.DesktopNames.Remove(desktopName);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool DesktopNameExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.DesktopNames.Any(e => e.Id == id);
         }
     }
 }

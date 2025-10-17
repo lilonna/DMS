@@ -17,6 +17,8 @@ public partial class DMSContext : DbContext
 
     public virtual DbSet<Desktop> Desktops { get; set; }
 
+    public virtual DbSet<DesktopName> DesktopNames { get; set; }
+
     public virtual DbSet<Gender> Genders { get; set; }
 
     public virtual DbSet<Room> Rooms { get; set; }
@@ -31,9 +33,9 @@ public partial class DMSContext : DbContext
         modelBuilder.Entity<Desktop>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_Desktops");
-            entity.HasOne(d => d.Room).WithMany(p => p.Desktops)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Desktops_Rooms");
+            entity.HasOne(d => d.DesktopName).WithMany(p => p.Desktops).HasConstraintName("FK_Desktops_DesktopNames");
+
+            entity.HasOne(d => d.Room).WithMany(p => p.Desktops).HasConstraintName("FK_Desktops_Rooms");
 
             entity.HasOne(d => d.User).WithMany(p => p.Desktops)
                 .OnDelete(DeleteBehavior.SetNull)
@@ -43,17 +45,18 @@ public partial class DMSContext : DbContext
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_Users");
-            entity.HasOne(d => d.Gender).WithMany(p => p.Users)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Users_Genders");
+            entity.HasOne(d => d.Gender).WithMany(p => p.Users).HasConstraintName("FK_Users_Genders");
         });
 
-        // Genders
+
         modelBuilder.Entity<Gender>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_Genders");
         });
-
+        modelBuilder.Entity<DesktopName>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_DesktopNames");
+        });
         // Rooms
         modelBuilder.Entity<Room>(entity =>
         {
