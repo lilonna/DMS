@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +21,8 @@ namespace DMS.Controllers
         // GET: Desktops
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Desktops.ToListAsync());
+            var dMSContext = _context.Desktops.Include(d => d.Room).Include(d => d.User);
+            return View(await dMSContext.ToListAsync());
         }
 
         // GET: Desktops/Details/5
@@ -33,6 +34,8 @@ namespace DMS.Controllers
             }
 
             var desktop = await _context.Desktops
+                .Include(d => d.Room)
+                .Include(d => d.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (desktop == null)
             {
@@ -45,6 +48,8 @@ namespace DMS.Controllers
         // GET: Desktops/Create
         public IActionResult Create()
         {
+            ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Id");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -61,6 +66,8 @@ namespace DMS.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Id", desktop.RoomId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", desktop.UserId);
             return View(desktop);
         }
 
@@ -77,6 +84,8 @@ namespace DMS.Controllers
             {
                 return NotFound();
             }
+            ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Id", desktop.RoomId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", desktop.UserId);
             return View(desktop);
         }
 
@@ -112,6 +121,8 @@ namespace DMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Id", desktop.RoomId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", desktop.UserId);
             return View(desktop);
         }
 
@@ -124,6 +135,8 @@ namespace DMS.Controllers
             }
 
             var desktop = await _context.Desktops
+                .Include(d => d.Room)
+                .Include(d => d.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (desktop == null)
             {

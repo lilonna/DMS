@@ -12,16 +12,16 @@ public partial class User
     public int Id { get; set; }
 
     [Column("First Name")]
-    [StringLength(50)]
+    [StringLength(100)]
     public string FirstName { get; set; } = null!;
 
     [Column("Middle Name")]
-    [StringLength(50)]
+    [StringLength(100)]
     public string MiddleName { get; set; } = null!;
 
     [Column("Last Name")]
-    [StringLength(50)]
-    public string LastName { get; set; } = null!;
+    [StringLength(100)]
+    public string? LastName { get; set; }
 
     public int GenderId { get; set; }
 
@@ -29,8 +29,8 @@ public partial class User
     [StringLength(50)]
     public string PhoneNumber { get; set; } = null!;
 
-    [StringLength(50)]
-    public string Position { get; set; } = null!;
+    [StringLength(100)]
+    public string? Position { get; set; }
 
     [InverseProperty("User")]
     public virtual ICollection<Desktop> Desktops { get; set; } = new List<Desktop>();

@@ -47,7 +47,7 @@ namespace DMS.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
-            ViewData["GenderId"] = new SelectList(_context.Genders, "Id", "Id");
+            ViewData["GenderId"] = new SelectList(_context.Genders, "Id", "Name");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace DMS.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GenderId"] = new SelectList(_context.Genders, "Id", "Id", user.GenderId);
+            ViewData["GenderId"] = new SelectList(_context.Genders, "Id", "Name", user.GenderId);
             return View(user);
         }
 
@@ -81,7 +81,7 @@ namespace DMS.Controllers
             {
                 return NotFound();
             }
-            ViewData["GenderId"] = new SelectList(_context.Genders, "Id", "Id", user.GenderId);
+            ViewData["GenderId"] = new SelectList(_context.Genders, "Id", "Name", user.GenderId);
             return View(user);
         }
 
@@ -117,7 +117,7 @@ namespace DMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GenderId"] = new SelectList(_context.Genders, "Id", "Id", user.GenderId);
+            ViewData["GenderId"] = new SelectList(_context.Genders, "Id", "Name", user.GenderId);
             return View(user);
         }
 

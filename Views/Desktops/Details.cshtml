@@ -1,4 +1,4 @@
-﻿@model DMS.Models.Desktop
+@model DMS.Models.Desktop
 
 @{
     ViewData["Title"] = "Details";
@@ -23,22 +23,22 @@
             @Html.DisplayFor(model => model.SerialNumber)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserId)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IssueReport)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IssueReport)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RoomId)
+            @Html.DisplayNameFor(model => model.Room)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RoomId)
+            @Html.DisplayFor(model => model.Room.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.User.Id)
         </dd>
     </dl>
 </div>
